@@ -28,9 +28,26 @@ def main():
         st.write(df0.isnull().sum())
 
     if choice == "Multiplataforma":
-        fig1 = px.pie(df0, values=df0.Global_Sales,names=df0.Platform,color=df0.Platform)
-        fig1.update_layout(title="<b>Sales pecentage between platforms</b>")
-        st.plotly_chart(fig1)
+        subset_data = df0
+        genre_input = st.sidebar.multiselect('Genre',
+                                             df0.groupby('Platform').count().reset_index()['Platform'].tolist())
+        if len(genre_input) > 0:
+            subset_data = df0[df0['Platform'].isin(genre_input)]
+        st.subheader('Plataforma según ventas globales')
+        totalcases = alt.Chart(subset_data).transform_filter(alt.datum.Global_Sales > 0).mark_line().encode(
+            x=alt.X('Year', type='nominal', title='Year'),
+            y=alt.Y('sum(Global_Sales):Q', title='Global Sales'),
+            color='Genre',
+            tooltip='sum(Global_Sales)',
+        ).properties(
+            width=1500,
+            height=600
+        ).configure_axis(
+            labelFontSize=17,
+            titleFontSize=20
+        )
+        st.altair_chart(totalcases)
+
     if choice == "Geografía":
         pass
     if choice == "Género":
