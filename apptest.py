@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import altair as alt
 from datetime import datetime
-import plotly.express as px
-from plotly import tools
 
 st.title("Video Game EDA")
 activity = ["Basico EDA", "Multiplataforma","Geografía","Género","ESRB","Acuerdo"]
