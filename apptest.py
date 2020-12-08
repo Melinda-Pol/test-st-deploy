@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import altair as alt
 from datetime import datetime
+import time
+from altair import Chart,X, Y, Axis, SortField, OpacityValue
 
 st.title("Video Game EDA")
 activity = ["Basico EDA", "Multiplataforma","Geografía","Género","ESRB","Acuerdo"]
@@ -11,6 +13,7 @@ st.markdown("[Fuente: Kaggle video game sales](https://www.kaggle.com/ashaheedq/
 #Dataset Kaggle
 df0 = pd.read_csv("vgsales-12-4-2019.csv")
 
+@st.cache
 def main():
     if choice == "Basico EDA":
         st.title('Análisis básico')
@@ -47,7 +50,14 @@ def main():
         st.altair_chart(totalcases)
 
     if choice == "Geografía":
-        pass
+        regions = st.selectbox(label="Selecciona una zona geográfica"), options=['NA_Sales','PAL_Sales','JP_Sales'])
+        fig = go.figure
+        if regions == 'NA_Sales':
+            fig.add_trace(go.Scatter(x=df0.Year,y=df0.NA_Sales, mode='lines',name='NA_Sales'))
+        if regions == 'PAL_Sales':
+            fig.add_trace(go.Scatter(x=df0.Year, y=df0.NA_Sales, mode='lines', name='PAL_Sales'))
+        if regions == 'JP_Sales':
+            fig.add_trace(go.Scatter(x=df0.Year, y=df0.NA_Sales, mode='lines', name='JP_Sales'))
     if choice == "Género":
         pass
     if choice == "ESRB":
