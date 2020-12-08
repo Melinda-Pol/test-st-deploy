@@ -50,13 +50,12 @@ def main():
 
     if choice == "Geografía":
         regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
-        fig = go.figure
         if regions == 'NA_Sales':
-            fig.add_trace(go.Scatter(x=df0.Year,y=df0.NA_Sales, mode='lines',name='NA_Sales'))
+            alt.Chart(regions).mark_bar().encode(x=df0.Year,y=df0.NA_Sales)
         if regions == 'PAL_Sales':
-            fig.add_trace(go.Scatter(x=df0.Year, y=df0.NA_Sales, mode='lines', name='PAL_Sales'))
+            pass
         if regions == 'JP_Sales':
-            fig.add_trace(go.Scatter(x=df0.Year, y=df0.NA_Sales, mode='lines', name='JP_Sales'))
+            pass
     if choice == "Género":
         pass
     if choice == "ESRB":
