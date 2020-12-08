@@ -51,7 +51,8 @@ def main():
     if choice == "Geografía":
         regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
         if regions == 'NA_Sales':
-            alt.Chart(regions).mark_bar().encode(x=df0.Year,y=df0.NA_Sales)
+            nasales = alt.Chart(regions).mark_bar().encode(x=df0.Year,y=df0.NA_Sales)
+            st.altair_chart(nasales)
         if regions == 'PAL_Sales':
             pass
         if regions == 'JP_Sales':
