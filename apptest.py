@@ -13,7 +13,6 @@ st.markdown("[Fuente: Kaggle video game sales](https://www.kaggle.com/ashaheedq/
 #Dataset Kaggle
 df0 = pd.read_csv("vgsales-12-4-2019.csv")
 
-@st.cache
 def main():
     if choice == "Basico EDA":
         st.title('Análisis básico')
