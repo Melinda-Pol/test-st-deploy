@@ -50,7 +50,7 @@ def main():
         st.altair_chart(totalcases)
 
     if choice == "Geografía":
-        regions = st.selectbox(label="Selecciona una zona geográfica"), options=['NA_Sales','PAL_Sales','JP_Sales'])
+        regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
         fig = go.figure
         if regions == 'NA_Sales':
             fig.add_trace(go.Scatter(x=df0.Year,y=df0.NA_Sales, mode='lines',name='NA_Sales'))
