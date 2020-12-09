@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import altair as alt
 from datetime import datetime
 import time
+import altair as alt
 from altair import Chart,X, Y, Axis, SortField, OpacityValue
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.title("Video Game EDA")
 activity = ["Basico EDA", "Multiplataforma","Geografía","Género","ESRB","Acuerdo"]
@@ -28,26 +29,30 @@ def main():
         st.write(df0.isnull().sum())
 
     if choice == "Multiplataforma":
-        subset_data = df0
-        genre_input = st.sidebar.multiselect('Genre',
-                                             df0.groupby('Platform').count().reset_index()['Platform'].tolist())
-        if len(genre_input) > 0:
-            subset_data = df0[df0['Platform'].isin(genre_input)]
-        st.subheader('Plataforma según ventas globales')
-        totalcases = alt.Chart(subset_data).transform_filter(alt.datum.Global_Sales > 0).mark_line().encode(
-            x=alt.X('Year', type='nominal', title='Year'),
-            y=alt.Y('sum(Global_Sales):Q', title='Global Sales'),
-            color='Genre',
-            tooltip='sum(Global_Sales)',
-        ).properties(
-            width=1500,
-            height=600
-        ).configure_axis(
-            labelFontSize=17,
-            titleFontSize=20
-        )
-        st.altair_chart(totalcases)
-
+        
+        if st.checkbox("¿Debo desarrollar juegos multiplataforma?¿O enfocarme sólo en una plataforma?"):
+            st.text("Según ranking de ventas totales")
+            dfselect = df0[df0['Rank'] <= 20]
+            dfselect = dfselect[dfselect['Year']>=2000]
+            dfselect = dfselect[['Year','Name','Platform','Rank']]
+            dfselect['Year'] = dfselect['Year'].astype('int64')
+            dfselect = dfselect.sort_values(by=['Rank'])
+            st.write(dfselect)
+            
+        if st.checkbox("En ese segundo caso, ¿en qué plataforma me debería enfocar?"):
+            st.text("Reparto de ventas globales por plataforma durante los últimos 5 años:")
+            #Análisis plataformas
+            df1 = df0[['Year','Platform','Global_Sales']]
+            df1['Year'] = df1['Year'].astype('Int64')
+            df1['Year'] = df1[df1['Year']>2015]
+            pivplat = pd.pivot_table(df1,values='Global_Sales',index=['Platform'],columns = ['Year'])
+            #Grafico 2016-2020 según ventas globaleS
+            my_colors = ['y','m','c','b','r','g']
+            ax = pivplat.plot(kind= 'barh',stacked = True, color = my_colors)
+            ax.legend(loc='center left', bbox_to_anchor=(1, .5))
+            st.pyplot()
+            st.write("Cómo se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
+        
     if choice == "Geografía":
         regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
         if regions == 'NA_Sales':
