@@ -8,7 +8,7 @@ from altair import Chart,X, Y, Axis, SortField, OpacityValue
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.title("Video Game EDA")
-activity = ["Basico EDA", "Multiplataforma","Geografía","Género","ESRB","Acuerdo"]
+activity = ["Basico EDA", "Multiplataforma","Geografía","Género","ESRB","Acuerdo","Conclusiones"]
 choice = st.sidebar.selectbox("Tipo de análisis",activity)
 st.markdown("[Fuente: Kaggle video game sales](https://www.kaggle.com/ashaheedq/video-games-sales-2019)")
 #Dataset Kaggle
@@ -42,20 +42,11 @@ def main():
         
         if st.checkbox("En ese segundo caso, ¿en qué plataforma me debería enfocar?"):
             st.text("Reparto de ventas globales por plataforma durante los últimos 5 años:")
-            #Análisis plataformas
-            df1 = df0[['Year','Platform','Global_Sales']]
-            df1['Year'] = df1['Year'].astype('Int64')
-            df1['Year'] = df1[df1['Year']>2015]
-            pivplat = pd.pivot_table(df1,values='Global_Sales',index=['Platform'],columns = ['Year'])
-            #Grafico 2016-2020 según ventas globaleS
-            my_colors = ['y','m','c','b','r','g']
-            ax = pivplat.plot(kind= 'barh',stacked = True, color = my_colors)
-            ax.legend(loc='center left', bbox_to_anchor=(1, .5))
-            #st.pyplot()
-            #st.write("Cómo se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
+            img = Image.open("df1p.png")
+            st.image(img, width=400, caption="Sum Global_Sales (5 Years) ")
+            st.write("Cómo se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
         
     if choice == "Geografía":
-        
         regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
         if regions == 'NA_Sales':
             pass
@@ -69,6 +60,7 @@ def main():
         st.text("Meli está en ello...en unas semanas estará disponible")
     if choice == "Acuerdo":
         st.text("Meli está en ello...en unas semanas estará disponible")
-
+    if choice == "Conclusiones":
+        st.text("Meli está en ello...en unas semanas estará disponible")
 if __name__ == '__main__':
     main()
