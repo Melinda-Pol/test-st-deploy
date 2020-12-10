@@ -31,6 +31,7 @@ def main():
     if choice == "Multiplataforma":
         
         if st.checkbox("¿Debo desarrollar juegos multiplataforma?¿O enfocarme sólo en una plataforma?"):
+            
             st.text("Según ranking de ventas totales")
             dfselect = df0[df0['Rank'] <= 20]
             dfselect = dfselect[dfselect['Year']>=2000]
@@ -38,7 +39,7 @@ def main():
             dfselect['Year'] = dfselect['Year'].astype('int64')
             dfselect = dfselect.sort_values(by=['Rank'])
             st.write(dfselect)
-            
+        '''   
         if st.checkbox("En ese segundo caso, ¿en qué plataforma me debería enfocar?"):
             st.text("Reparto de ventas globales por plataforma durante los últimos 5 años:")
             #Análisis plataformas
@@ -52,8 +53,9 @@ def main():
             ax.legend(loc='center left', bbox_to_anchor=(1, .5))
             st.pyplot()
             st.write("Cómo se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
-        
+        '''
     if choice == "Geografía":
+        '''
         regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
         if regions == 'NA_Sales':
             nasales = alt.Chart(regions).mark_bar().encode(x=df0.Year,y=df0.NA_Sales)
@@ -62,12 +64,13 @@ def main():
             pass
         if regions == 'JP_Sales':
             pass
+        '''
     if choice == "Género":
-        pass
+        st.text("Meli está en ello...en unas semanas estará disponible")
     if choice == "ESRB":
-        pass
+        st.text("Meli está en ello...en unas semanas estará disponible")
     if choice == "Acuerdo":
-        pass
+        st.text("Meli está en ello...en unas semanas estará disponible")
 
 if __name__ == '__main__':
     main()
