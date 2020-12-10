@@ -63,7 +63,6 @@ def main():
             pass
         if regions == 'JP_Sales':
             pass
-        '''
     if choice == "Género":
         st.text("Meli está en ello...en unas semanas estará disponible")
     if choice == "ESRB":
