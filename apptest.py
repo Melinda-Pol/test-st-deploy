@@ -39,7 +39,7 @@ def main():
             dfselect['Year'] = dfselect['Year'].astype('int64')
             dfselect = dfselect.sort_values(by=['Rank'])
             st.write(dfselect)
-        '''   
+        
         if st.checkbox("En ese segundo caso, ¿en qué plataforma me debería enfocar?"):
             st.text("Reparto de ventas globales por plataforma durante los últimos 5 años:")
             #Análisis plataformas
@@ -51,15 +51,14 @@ def main():
             my_colors = ['y','m','c','b','r','g']
             ax = pivplat.plot(kind= 'barh',stacked = True, color = my_colors)
             ax.legend(loc='center left', bbox_to_anchor=(1, .5))
-            st.pyplot()
-            st.write("Cómo se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
-        '''
+            #st.pyplot()
+            #st.write("Cómo se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
+        
     if choice == "Geografía":
-        '''
+        
         regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
         if regions == 'NA_Sales':
-            nasales = alt.Chart(regions).mark_bar().encode(x=df0.Year,y=df0.NA_Sales)
-            st.altair_chart(nasales)
+            pass
         if regions == 'PAL_Sales':
             pass
         if regions == 'JP_Sales':
