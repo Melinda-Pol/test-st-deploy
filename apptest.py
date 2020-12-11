@@ -5,6 +5,7 @@ from datetime import datetime
 import time
 import altair as alt
 from altair import Chart,X, Y, Axis, SortField, OpacityValue
+from PIL import Image
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.title("Video Game EDA")
