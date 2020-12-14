@@ -34,28 +34,35 @@ def main():
         if st.checkbox("¿Debo desarrollar juegos multiplataforma?¿O enfocarme sólo en una plataforma?"):
             
             st.text("Según ranking de ventas totales")
-            dfselect = df0[df0['Rank'] <= 20]
-            dfselect = dfselect[dfselect['Year']>=2000]
-            dfselect = dfselect[['Year','Name','Platform','Rank']]
-            dfselect['Year'] = dfselect['Year'].astype('int64')
-            dfselect = dfselect.sort_values(by=['Rank'])
-            st.write(dfselect)
+            df1 = df0[df0['Rank'] <= 20]
+            df1 = df1[df1['Year']>=2000]
+            df1 = df1[['Year','Name','Platform','Rank']]
+            df1['Year'] = df1['Year'].astype('int64')
+            df1 = df1.sort_values(by=['Rank'])
+            st.write(df1)
         
         if st.checkbox("En ese segundo caso, ¿en qué plataforma me debería enfocar?"):
-            st.text("Reparto de ventas globales por plataforma durante los últimos 5 años:")
+            st.write("Reparto de ventas globales por plataforma durante los últimos 5 años:")
             img = Image.open("df1p.png")
-            st.image(img, width=400, caption="Sum Global_Sales (5 Years) ")
-            st.write("Cómo se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
-        
+            st.image(img, width=600, caption="Sum Global_Sales (5 Years) ")
+            st.write("Cómo   se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
+        if st.checkbox("Ranking de juegos según plataformas"):
+            st.write("En construcción")
     if choice == "Geografía":
-        regions = st.selectbox(label="Selecciona una zona geográfica", options=['NA_Sales','PAL_Sales','JP_Sales'])
+        st.write("¿Puedo esperar que mis ventas se repartan por igual entre las distintas geografías?")
+        regions = st.selectbox(label="Selecciona una zona geográfica", options=['Global_Sales','NA_Sales','PAL_Sales','JP_Sales','Other_Sales'])
+        if regions == 'Global_Sales':
+            pass
         if regions == 'NA_Sales':
-            pass
+            st.write("Distribución de videojuegos en Norte América")
         if regions == 'PAL_Sales':
-            pass
+            st.write("Distribución de videojuegos en Europa")
         if regions == 'JP_Sales':
-            pass
-    if choice == "Género":
+            st.write("Distribución de videojuegos en Japón")
+        if regions == 'Other_Sales':
+            st.write("Distribución de videojuegos en Otros Países")
+        
+         
         st.text("Meli está en ello...en unas semanas estará disponible")
     if choice == "ESRB":
         st.text("Meli está en ello...en unas semanas estará disponible")
