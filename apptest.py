@@ -46,10 +46,7 @@ def main():
             img = Image.open("df1p.png")
             st.image(img, width=700, caption="Sum Global_Sales (5 Years) ")
             st.write("Cómo   se observa, las plataformas: XOne, Wii y PS4 son las que han dominado el número de ventas totales en los últimos 5 años.")
-        
-        #if st.checkbox("Ranking de juegos según plataformas"):
-            #st.write("En construcción")
-        
+
     if choice == "Geografía":
         #Ventas según geografía
         st.write("¿Puedo esperar que mis ventas se repartan por igual entre las distintas geografías?")
@@ -96,41 +93,41 @@ def main():
         
         st.write("Si hacemos una comparativa a lo largo de los años por zonas geográficas, podemos observar que las ventas en Norte América son las que han predominado a lo largo del tiempo, seguido de Europa. Para indagar un poco más, incluyo un análisis de los videojuegos más vendidos por cada zona geográfica")
     
-    if st.checkbox("Análisis videojuegos por zonas geográficas:"):
-       
-        dfNA = df0[[ 'Year','NA_Sales','Name']]
-        dfNA['label'] = 'NA'
-        dfNA=dfNA.rename(columns = {'NA_Sales':'Sales'})
-        
-        dfPAL= df0[[ 'Year','PAL_Sales','Name']]
-        dfPAL['label'] = 'PAL'
-        dfPAL = dfPAL.rename(columns = {'PAL_Sales':'Sales'})
-        
-        dfJP = df0[[ 'Year','JP_Sales','Name']]
-        dfJP['label'] = 'JP'
-        dfJP = dfJP.rename(columns = {'JP_Sales':'Sales'})
-        
-        dfOT = df0[[ 'Year','Other_Sales','Name']]
-        dfOT['label'] = 'OT'
-        dfOT= dfOT.rename(columns = {'Other_Sales':'Sales'})
-        
-        dftot = pd.concat([dfNA,dfPAL,dfJP,dfOT])
-        dftot = dftot[dftot['Year']>=2018]
-        dftot.Sales.describe()
-        dftot = dftot[dftot['Sales']>0.30]
-        source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
-        
-        chartfacet = alt.Chart(source).mark_point().encode(
-        alt.X('median(x):Q', scale=alt.Scale(zero=False)),
-        y='Name:O',
-        color='x:N',
-        facet=alt.Facet('category:O', columns=2),
-        ).properties(
-        width=600,
-        height=300,
-        )
-    
-        st.altair_chart(chartfacet)
+        if st.checkbox("Análisis videojuegos por zonas geográficas:"):
+
+            dfNA = df0[[ 'Year','NA_Sales','Name']]
+            dfNA['label'] = 'NA'
+            dfNA=dfNA.rename(columns = {'NA_Sales':'Sales'})
+
+            dfPAL= df0[[ 'Year','PAL_Sales','Name']]
+            dfPAL['label'] = 'PAL'
+            dfPAL = dfPAL.rename(columns = {'PAL_Sales':'Sales'})
+
+            dfJP = df0[[ 'Year','JP_Sales','Name']]
+            dfJP['label'] = 'JP'
+            dfJP = dfJP.rename(columns = {'JP_Sales':'Sales'})
+
+            dfOT = df0[[ 'Year','Other_Sales','Name']]
+            dfOT['label'] = 'OT'
+            dfOT= dfOT.rename(columns = {'Other_Sales':'Sales'})
+
+            dftot = pd.concat([dfNA,dfPAL,dfJP,dfOT])
+            dftot = dftot[dftot['Year']>=2018]
+            dftot.Sales.describe()
+            dftot = dftot[dftot['Sales']>0.30]
+            source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
+
+            chartfacet = alt.Chart(source).mark_point().encode(
+            alt.X('median(x):Q', scale=alt.Scale(zero=False)),
+            y='Name:O',
+            color='x:N',
+            facet=alt.Facet('category:O', columns=2),
+            ).properties(
+            width=600,
+            height=300,
+            )
+
+            st.altair_chart(chartfacet)
     if choice == "ESRB":
         st.text("Meli está en ello...en unas semanas estará disponible")
     if choice == "Acuerdo":
