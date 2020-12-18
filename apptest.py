@@ -112,8 +112,8 @@ def main():
             dfOT= dfOT.rename(columns = {'Other_Sales':'Sales'})
 
             dftot = pd.concat([dfNA,dfPAL,dfJP,dfOT])
-            dftot = dftot[dftot['Year']>=2018]
-            dftot = dftot[dftot['Sales']>0.30]
+            dftot = dftot[dftot['Year']>=2019]
+            dftot = dftot[dftot['Sales']>0.20]
             source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
 
             chartfacet = alt.Chart(source).mark_point().encode(
