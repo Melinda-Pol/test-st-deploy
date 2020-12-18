@@ -113,12 +113,12 @@ def main():
 
             dftot = pd.concat([dfNA,dfPAL,dfJP,dfOT])
             dftot = dftot[dftot['Year']>=2018]
-            dftot.Sales.describe()
+            dftot = dftot['Year'].astype('int64')
             dftot = dftot[dftot['Sales']>0.30]
             source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
 
             chartfacet = alt.Chart(source).mark_point().encode(
-            alt.X('median(x):Q', scale=alt.Scale(zero=False)),
+            alt.X('x:Q', scale=alt.Scale(zero=False)),
             y='Name:O',
             color='x:N',
             facet=alt.Facet('category:O', columns=2),
