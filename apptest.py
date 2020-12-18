@@ -14,6 +14,8 @@ choice = st.sidebar.selectbox("Tipo de análisis",activity)
 st.markdown("[Fuente: Kaggle video game sales](https://www.kaggle.com/ashaheedq/video-games-sales-2019)")
 #Dataset Kaggle
 df0 = pd.read_csv("vgsales-12-4-2019.csv")
+df0 = df0.dropna(subset=['Year','Name'])
+df0['Year'] = df0['Year'].astype('int64')
 
 def main():
     if choice == "Basico EDA":
@@ -113,7 +115,7 @@ def main():
 
             dftot = pd.concat([dfNA,dfPAL,dfJP,dfOT])
             dftot = dftot[dftot['Year']>=2019]
-            dftot = dftot[dftot['Sales']>0.20]
+            dftot = dftot[dftot['Sales']>0.05]
             source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
 
             chartfacet = alt.Chart(source).mark_point().encode(
