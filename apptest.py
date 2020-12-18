@@ -115,7 +115,7 @@ def main():
 
             dftot = pd.concat([dfNA,dfPAL,dfJP,dfOT])
             dftot = dftot[dftot['Year']>=2019]
-            dftot = dftot[dftot['Sales']>0.3]
+            dftot = dftot[dftot['Sales']>0.03]
             source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
 
             chartfacet = alt.Chart(source).mark_point().encode(
