@@ -115,7 +115,7 @@ def main():
             dftot = dftot[dftot['Year']>=2018]
             dftot = dftot[dftot['Sales']>0.30]
             source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
-            source = source['x'].astype('int64')
+
             chartfacet = alt.Chart(source).mark_point().encode(
             alt.X('x:Q', scale=alt.Scale(zero=False)),
             y='Name:O',
