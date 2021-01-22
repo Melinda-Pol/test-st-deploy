@@ -33,14 +33,12 @@ def main():
         st.text("Do I have null data?")
         st.write(df0.isnull().sum())
         
-
         if st.button('Correlation map'):
             
             df1 = df0.drop(['VGChartz_Score', 'status','Total_Shipped'],axis=1)
             c_plot = sns.heatmap(df1.corr(),annot=True, cmap="YlGnBu")
             st.write(c_plot)
             st.pyplot()
-            
 
     if choice == "Analysis":
         #Platforms on demand by year of release
@@ -59,13 +57,6 @@ def main():
             barplot = sns.barplot(x ="Rank",y="Platform", hue="Name",data=df1,palette="mako")
             barplot.plot(kind='bar')
             st.pyplot()
-            
-            
-            
-            
-            
-            
-            
             
         #Platform analysis
         st.subheader("In wich platform should I focus on?")
