@@ -11,8 +11,8 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 #Title
 st.title("Video Game EDA")
 #Options for a selectbox
-section  = ["Basic EDA", "Analysis","Recommendations"]
-choice = st.sidebar.selectbox("Type of analysis",section)
+section  = ["Basic EDA", "Dashboard"]
+choice = st.sidebar.selectbox("Activity",section)
 #Datasource
 st.markdown("[Dataset: Kaggle video game sales](https://www.kaggle.com/ashaheedq/video-games-sales-2019)")
 #Load dataset
@@ -21,7 +21,7 @@ df0 = pd.read_csv("vgsales-12-4-2019.csv")
 def main():
     if choice == "Basic EDA":
         #Shape of df
-        st.text("Shape of the dataset:")
+        st.text("Shape of dataset:")
         st.write(df0.shape)
         #Stats and general description
         st.text("General description:")
@@ -40,11 +40,11 @@ def main():
             st.write(c_plot)
             st.pyplot()
 
-    if choice == "Analysis":
+    if choice == "Dashboard":
         #Platforms on demand by year of release
-        st.subheader("Top platforms based on year of release game?")
+        st.subheader("Videogame ranking filter")
+        x1 = st.slider('Year of release',1970,2020,(1970,2020))
         x = st.number_input('Select ranking',min_value=1,max_value=55792)
-        x1 = st.slider('Year of release of the game',1970,2020,(1970,2020))
         
         if st.button('Filter data'):
             df1 = df0[['Year','Name','Rank','Platform']]
@@ -57,18 +57,17 @@ def main():
             barplot = sns.barplot(x ="Rank",y="Platform", hue="Name",data=df1,palette="mako")
             barplot.plot(kind='bar')
             st.pyplot()
-            
+
         #Platform analysis
-        st.subheader("In wich platform should I focus on?")
-        if st.button('Barchart'):
-            st.write("Market global sales for the last 5 years (:")
+        st.subheader("Most demanded platforms")
+        if st.button('See barchart'):
             img = Image.open("df1p.png")
             st.image(img, width=700, caption="Sum Global_Sales (5 Years)")
-            st.write("Platforms on demand: XOne, Wii and PS4.")
+            st.write("Most demanded platforms for the last 5 years: XOne, Wii and PS4.")
 
-        #Ventas según geografía
-        st.subheader("Geographie distribution")
-        if st.button('Sales distribution chart'):
+        #Geographic distribution
+        st.subheader("Geographical Distribution")
+        if st.checkbox('Comparative chart'):
             dfNA = df0[[ 'Year','NA_Sales',]]
             dfNA['label'] = 'NA'
             dfNA=dfNA.rename(columns = {'NA_Sales':'Sales'})
@@ -89,15 +88,14 @@ def main():
             dftot = dftot[dftot['Year']> 1995]
             source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
             subset_data = source
-            genre_input = st.multiselect('category',
+            genre_input = st.multiselect('Choose category',
                                                  source.groupby('category').count().reset_index()['category'].tolist())
             if len(genre_input) > 0:
                 subset_data = source[source['category'].isin(genre_input)]
     
-            st.subheader('Ventas globales según geografía')
             totalcases = alt.Chart(subset_data).transform_filter(alt.datum.y > 0).mark_line().encode(
-                x=alt.X('x', type='nominal', title='Year'),
-                y=alt.Y('sum(y):Q', title='Total Sales'),
+                x=alt.X('x', type='nominal', title='Year of release'),
+                y=alt.Y('sum(y):Q', title='Global_Sales(millions)'),
                 color='category',
                 tooltip = 'sum(y)',
             ).properties(
@@ -109,44 +107,7 @@ def main():
             )
             st.altair_chart(totalcases)
         
-            st.write("Si hacemos una comparativa a lo largo de los años por zonas geográficas, podemos observar que las ventas en Norte América son las que han predominado a lo largo del tiempo, seguido de Europa. Para indagar un poco más, incluyo un análisis de los videojuegos más vendidos por cada zona geográfica")
+            st.write("JP: Japan, NA: North Ameria, PAL: Europe, OT: Others")
     
-        st.subheader("Análisis videojuegos por zonas geográficas:")
-        if st.button("Geo zones"):
-            dfNA = df0[[ 'Year','NA_Sales','Name']]
-            dfNA['label'] = 'NA'
-            dfNA=dfNA.rename(columns = {'NA_Sales':'Sales'})
-    
-            dfPAL= df0[[ 'Year','PAL_Sales','Name']]
-            dfPAL['label'] = 'PAL'
-            dfPAL = dfPAL.rename(columns = {'PAL_Sales':'Sales'})
-    
-            dfJP = df0[[ 'Year','JP_Sales','Name']]
-            dfJP['label'] = 'JP'
-            dfJP = dfJP.rename(columns = {'JP_Sales':'Sales'})
-    
-            dfOT = df0[[ 'Year','Other_Sales','Name']]
-            dfOT['label'] = 'OT'
-            dfOT= dfOT.rename(columns = {'Other_Sales':'Sales'})
-    
-            dftot = pd.concat([dfNA,dfPAL,dfJP,dfOT])
-            dftot = dftot[dftot['Year']>=2019]
-            dftot = dftot[dftot['Sales']>0.03]
-            source = dftot.rename(columns = {'Year':'x','label':'category','Sales':'y'})
-    
-            chartfacet = alt.Chart(source).mark_point().encode(
-            alt.X('x:Q', scale=alt.Scale(zero=False)),
-            y='Name:O',
-            color='x:N',
-            facet=alt.Facet('category:O', columns=2),
-            ).properties(
-            width=600,
-            height=300,
-            )
-    
-            st.altair_chart(chartfacet)
-
-    if choice == "Recommendations":
-        st.text("Under construction")
 if __name__ == '__main__':
     main()
